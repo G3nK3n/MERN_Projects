@@ -1,0 +1,48 @@
+.Header {
+    height: 60px;
+    background-color: #ff1d4b;
+}
+
+/* -- */
+
+.YourPlace {
+    display: inline-block;
+    margin: 10px 0 0 20px;
+}
+
+.YourPlace a{
+    text-decoration: none;
+    font-size: 26px;
+    color: white;
+    font-weight: bold;
+}
+
+/* -- */
+
+.Links {
+    float: right;
+    margin-right:30px;
+    margin-top:2px;
+}
+
+.Links ul li{
+    display: inline;
+    margin-left:20px;
+    padding: 10px 20px;
+}
+
+.Links ul li a {
+    text-decoration: none;
+    color: white;
+    text-transform: uppercase;
+}
+
+.Authenticate {
+    background-color: #fdd000;
+    border-style: solid;
+    border-width: 1px;
+}
+
+.Authenticate a {
+    color: black !important;
+}
