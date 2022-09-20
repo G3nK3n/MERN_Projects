@@ -1,0 +1,14 @@
+.Form {
+    margin:auto;
+    background-color: white;
+    width:500px;
+    height: 500px;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.LoginText {
+    text-align: center;
+    padding: 15px 0px;
+    border-bottom: 1px solid black;
+}

@@ -1,6 +1,7 @@
 .Header {
     height: 60px;
     background-color: #ff1d4b;
+    margin-bottom:60px;
 }
 
 /* -- */
@@ -28,13 +29,14 @@
 .Links ul li{
     display: inline;
     margin-left:20px;
-    padding: 10px 20px;
+    padding: 10px 0px;
 }
 
 .Links ul li a {
     text-decoration: none;
     color: white;
     text-transform: uppercase;
+    padding: 10px 20px;
 }
 
 .Authenticate {
