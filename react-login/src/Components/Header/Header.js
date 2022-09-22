@@ -1,11 +1,12 @@
 import React from "react";
 import classes from './Header.module.css';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
     return(
         <div className={classes.Header}>
             <div className={classes.YourPlace}>
-                <a href="#" >YourPlaces</a>
+                <Link to={"/"}><span><div>YourPlaces</div></span></Link>
             </div>
             <div className={classes.Links}>
                 <ul>
