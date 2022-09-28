@@ -1,13 +1,19 @@
 import React from "react";
 import UsersList from './UsersList';
 
+
+// This component will return the UserList component.  
 const Users = () => {
     
     //Dummy users for now
     const DUMMY_USERS=[
         {
-            id: '1',
+            id: 'u1',
             name: 'Ken'
+        }, 
+        {
+            id: 'u2',
+            name: 'Kev'
         }
     ];
 

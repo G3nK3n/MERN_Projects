@@ -2,7 +2,7 @@
 import React from "react";
 import UsersItem from './UsersItem';
 
-
+//This class shows the list of Users
 const UsersList = props => {
     // This checks if there are any users in the array, hence the length
     if(props.items.length === 0) {

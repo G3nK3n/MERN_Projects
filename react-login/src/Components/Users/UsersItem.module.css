@@ -5,3 +5,8 @@
     margin: auto;
     text-align: center;
 }
+
+.UsersItem a {
+    text-decoration: none;
+    color: black;
+}

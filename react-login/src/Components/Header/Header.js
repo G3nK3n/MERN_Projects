@@ -12,7 +12,7 @@ const Header = () => {
                 <ul>
                     <li><a href="#">All Users</a></li>
                     <li><a href="#">My Places</a></li>
-                    <li><a href="#">Add Place</a></li>
+                    <li><Link to={"/addplaces"}>Add Places</Link></li>
                     <li className={classes.Authenticate}><a href="#">Authenticate</a></li>
                 </ul>
             </div>
