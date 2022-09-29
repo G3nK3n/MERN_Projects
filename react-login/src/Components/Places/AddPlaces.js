@@ -1,4 +1,6 @@
 import React from "react";
+import { useParams } from "react-router-dom";
+
 
 import PlaceList from './PlaceList';
 
@@ -20,8 +22,12 @@ const AddPlaces = () => {
         }
     ];
     
+    const theUserId = useParams().userid;
+    //This means that it will filter out the dummy array if the params id matches the creator in the dummy place
+    const filteringID = DUMMY_PLACES.filter(eachPlace => eachPlace.creator === theUserId)
+
     return(
-        <PlaceList items={DUMMY_PLACES} />
+        <PlaceList items={filteringID} />
     )
 }
 

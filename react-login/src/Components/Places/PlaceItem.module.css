@@ -1,0 +1,12 @@
+.PlaceItem {
+    width: 500px;
+    height: 180px;
+    background: white;
+    margin: auto;
+    text-align: center;
+}
+
+.PlaceItem a {
+    text-decoration: none;
+    color: black;
+}
