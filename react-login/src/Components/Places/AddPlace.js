@@ -6,6 +6,7 @@ import Forms from 'react-bootstrap/Form';
 
 const AddPlace = () => {
 
+    // ERROR: A component is changing an uncontrolled input to be controlled. (Because of objeect being empty?)
     const [form, setForm] = useState({})
     const [errors, setErrors] = useState({})
 
@@ -15,6 +16,7 @@ const AddPlace = () => {
             [field]:value
         })
 
+        //If there are no errors while onChanging, then set errors object to null
         if(!!errors[field]) {
             setErrors({
                 ...errors, 
@@ -23,7 +25,40 @@ const AddPlace = () => {
         }
     }
 
+    const validateForm = () => {
+        const {title, description, address} = form;
 
+        const  newErrors = {}
+
+        if(!title || title === '') {
+            newErrors.title = "Please enter a title";
+        }
+        else if(!description || description === '') {
+            newErrors.description = "Please enter a description";
+        }
+        else if(!address || address ==='') {
+            newErrors.address = "Please enter an address";
+        }
+
+        return newErrors;
+
+    }
+
+    const handleSubmit  = e => {
+        e.preventDefault();
+
+        const formErrors = validateForm();
+
+        //If there are errors, then set the erros object
+        if(Object.keys(formErrors).length > 0) {
+            setErrors(formErrors);
+        }
+        else {
+            console.log(form)
+        }
+
+        
+    }
     // const [isValidated, setIsValidated] = useState(true);
 
     // const checkValidation = (event) => {
@@ -76,7 +111,7 @@ const AddPlace = () => {
                     {errors.address}
                 </Forms.Control.Feedback>
                 <div className={classes.ButtonGroup}>
-                    <Button className={classes.SignupButton} variant="primary" type="submit">
+                    <Button onClick={handleSubmit} className={classes.SignupButton} variant="primary" type="submit">
                         Signup
                     </Button>
                     <br />
