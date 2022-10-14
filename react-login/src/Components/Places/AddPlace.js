@@ -33,10 +33,12 @@ const AddPlace = () => {
         if(!title || title === '') {
             newErrors.title = "Please enter a title";
         }
-        else if(!description || description === '') {
+        
+        if(!description || description === '') {
             newErrors.description = "Please enter a description";
         }
-        else if(!address || address ==='') {
+        
+        if(!address || address ==='') {
             newErrors.address = "Please enter an address";
         }
 
@@ -59,36 +61,10 @@ const AddPlace = () => {
 
         
     }
-    // const [isValidated, setIsValidated] = useState(true);
-
-    // const checkValidation = (event) => {
-    //     const form  = event.target;
-    //     const {title, description, address} = form;
-    //     //FIX THIS VALIDATION PROP IN FORM
-    //     // if(form.validated === false) {
-    //     //     console.log(form.validated)
-    //     //     event.preventDefault();
-    //     // }
-    //     // else {
-    //     //     setValidation(true);
-    //     // }
-
-    //     if(!title.value || title.value.trim().length === 0) {
-    //         event.preventDefault();
-    //         event.stopPropagation();
-    //         setIsValidated(false);
-            
-    //     }
-    //     else {
-    //         setIsValidated(true);
-    //     }
-        
-        
-    // }
 
     return(
         <div className={classes.Form}>
-            <Forms noValidate>
+            <Forms>
                 <Forms.Group className={classes.Name} controlId="formBasicName">
                     <Forms.Label>Title</Forms.Label> <br />
                     <Forms.Control value={form.title} onChange={(e) => setField('title', e.target.value)} isInvalid={!!errors.title} name="title" required type="name" />
@@ -105,7 +81,7 @@ const AddPlace = () => {
                 </Forms.Control.Feedback>
                 <Forms.Group className={classes.Password} controlId="formBasicAddress">
                     <Forms.Label>Address</Forms.Label> <br />
-                    <Forms.Control value={form.address} onChange={(e) => setField('address', e.target.value)} isInvalid={!!errors.address} name="address" required type="Address" />
+                    <Forms.Control value={form.address} onChange={(e) => setField('address', e.target.value)} isInvalid={!!errors.address} name="address" required type="address" />
                 </Forms.Group>
                 <Forms.Control.Feedback type='invalid'>
                     {errors.address}
