@@ -11,13 +11,15 @@ const AddPlaces = () => {
         {
             id: 'p1',
             place: 'New York', 
-            address: 'Somewhere in US', 
+            address: 'Somewhere in US',
+            description:  'The Big Apple', 
             creator: 'u1'
         }, 
         {
             id: 'p2',
             place: 'Montreal', 
-            address: 'Somewhere in Canada', 
+            address: 'Somewhere in Canada',
+            description: 'Home of Poutine', 
             creator: 'u2'
         }
     ];

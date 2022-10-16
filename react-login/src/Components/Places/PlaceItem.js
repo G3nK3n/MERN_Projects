@@ -8,6 +8,7 @@ const PlaceItem = (props) => {
     return(
         <div className={classes.PlaceItem}>
             <h1>{props.place}</h1>
+            <p>{props.description}</p>
             <p>{props.address}</p>
             <p>{props.creator}</p>
             <Link to={`/addplaces/${props.creator}`}>Edit</Link>
