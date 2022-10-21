@@ -51,7 +51,7 @@ const EditPlace = () => {
                 'address': t.address
             });
         })
-        console.log(form);
+        console.log(filterEditPlace);
 
     }, [])
     
@@ -118,7 +118,6 @@ const EditPlace = () => {
     }
    
     //TRY AND MAKE MULTIPLE PLACE WITH SAME CREATOR
-    //CANT SUBMIT EDIT BECAUSE WE HAVE NO BACKEND YET
     return(
         <div>
             {filterEditPlace.map((t) => {

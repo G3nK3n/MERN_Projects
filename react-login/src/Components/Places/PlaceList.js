@@ -1,12 +1,18 @@
 import React from "react";
 import PlaceItem from './PlaceItem';
+import Button from 'react-bootstrap/Button';
+import classes from './PlaceList.module.css';
+import { Link } from 'react-router-dom';
 
 const PlaceList = (props) => {
     
     if(props.items.length===0) {
         return(
-            <div>
-                <h1>No places found!</h1>
+            <div className={classes.EmptyPlaceOutside}>
+                <div className={classes.EmptyPlace}>
+                    <h1>No places found</h1>
+                    <Link to={`/addplaces`}>Add Place</Link>
+                </div>
             </div>
         )
     }

@@ -1,0 +1,11 @@
+.EmptyPlaceOutside {
+    text-align: center;
+}
+
+.EmptyPlace {
+    display: inline-block;
+    height: 150px;
+    width: 400px;
+    background-color: white;
+    text-align: center;
+}
