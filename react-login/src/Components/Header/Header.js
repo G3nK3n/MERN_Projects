@@ -10,7 +10,7 @@ const Header = () => {
             </div>
             <div className={classes.Links}>
                 <ul>
-                    <li><a href="#">All Users</a></li>
+                <li><Link to={"/"}>All Users</Link></li>
                     <li><a href="#">My Places</a></li>
                     <li><Link to={"/addplaces"}>Add Places</Link></li>
                     <li className={classes.Authenticate}><a href="#">Authenticate</a></li>

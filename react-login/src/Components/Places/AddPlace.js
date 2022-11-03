@@ -58,8 +58,6 @@ const AddPlace = () => {
         else {
             console.log(form)
         }
-
-        
     }
 
     return(

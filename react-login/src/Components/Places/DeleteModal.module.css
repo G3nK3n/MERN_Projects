@@ -1,0 +1,18 @@
+.DeleteModal {
+    position: absolute;
+    height: 150px;
+    width: 500px;
+    background: lightgrey;
+    top: 290px;
+    left: 730px;
+}
+
+.DeleteModal p {
+    margin-top: 40px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.Confirm {
+    margin-right: 30px;
+}
