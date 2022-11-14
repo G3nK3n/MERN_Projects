@@ -13,7 +13,7 @@ const Header = () => {
                 <li><Link to={"/"}>All Users</Link></li>
                     <li><a href="#">My Places</a></li>
                     <li><Link to={"/addplaces"}>Add Places</Link></li>
-                    <li className={classes.Authenticate}><a href="#">Authenticate</a></li>
+                    <li className={classes.Authenticate}><Link to={"/auth"}>Authenticate</Link></li>
                 </ul>
             </div>
         </div>
