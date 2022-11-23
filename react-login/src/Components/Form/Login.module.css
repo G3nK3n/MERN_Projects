@@ -2,7 +2,7 @@
     margin:auto;
     background-color: white;
     width:400px;
-    height: 360px;
+    min-height: 360px;
     border-radius: 10px;
     padding: 10px;
     
@@ -57,4 +57,18 @@
     background: #ff1d4b;
     color: white;
     cursor: pointer;
+}
+
+.SignupButton2 {
+    padding: 8px 23px;
+    text-transform: uppercase;
+
+    /* border: none; */
+    border-color: #ff1d4b;
+
+    border-radius: 3px;
+    background: #ff1d4b;
+    color: white;
+    cursor: pointer;
+    margin-top: 10px;
 }

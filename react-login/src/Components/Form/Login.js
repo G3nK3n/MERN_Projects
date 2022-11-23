@@ -10,6 +10,14 @@ const Login = () => {
     const [form, setForm] = useState({})
     const [errors, setErrors] = useState({})
 
+    const [isSwitched, setIsSwitched] = useState(false)
+
+
+    const switchHandler = () => {
+        setIsSwitched(!isSwitched)
+        console.log(isSwitched);
+    }
+
     const setField = (field, value) => {
         setForm({
             ...form, 
@@ -83,7 +91,10 @@ const Login = () => {
                             Login
                         </Button>
                         <br />
-                    </div>
+                        <Button onClick={switchHandler} className={classes.SignupButton2} type="button">
+                            Switch To Signup
+                        </Button>
+                    </div>  
                 </Forms>
             </div>
         </div>
