@@ -24,15 +24,15 @@
 /* -- */
 
 
-.Email label, .Password label {
+.Email label, .Password label, .Name label {
     font-weight: bold;
 }
 
-.Email input, .Password input {
+.Email input, .Password input, .Name input {
     width: 98%;
 }
 
-.Email input, .Password input {
+.Email input, .Password input, .Name input {
     margin-top: 5px;
 } 
 
@@ -44,6 +44,7 @@
 
 .ButtonGroup {
     margin-top: 15px;
+    text-align: center;
 }
 
 .SignupButton {
