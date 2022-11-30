@@ -17,8 +17,11 @@ const Login = () => {
         setIsSwitched(!isSwitched)
         setErrors({})
         setForm({})
-        //FIGURE OUT HOW TOP CLEAR FORM AFTER SWITCHING
-        
+
+        //This method clears the form inputs after switching
+        Array.from(document.querySelectorAll("input")).forEach(
+            input => (input.value = '')
+        );
     }
 
     const setField = (field, value) => {
@@ -87,6 +90,7 @@ const Login = () => {
                     <Forms.Control.Feedback type='invalid'>
                         {errors.name}
                     </Forms.Control.Feedback>
+
                     <Forms.Group className={classes.Email} controlId="formBasicEmail">
                         <Forms.Label>E-Mail</Forms.Label> <br />
                         <Forms.Control onChange={(e) => setField('email', e.target.value)} isInvalid={!!errors.email} name="email" required type="email" />
@@ -94,6 +98,7 @@ const Login = () => {
                     <Forms.Control.Feedback type='invalid'>
                         {errors.email}
                     </Forms.Control.Feedback>
+
                     <Forms.Group className={classes.Password} controlId="formBasicPassword">
                         <Forms.Label>Password</Forms.Label> <br />
                         <Forms.Control name="password" onChange={(e) => setField('password', e.target.value)} isInvalid={!!errors.password} required type="password" />
@@ -110,6 +115,7 @@ const Login = () => {
                         <Forms.Control.Feedback type='invalid'>
                             {errors.email}
                         </Forms.Control.Feedback>
+
                         <Forms.Group className={classes.Password} controlId="formBasicPassword">
                             <Forms.Label>Password</Forms.Label> <br />
                             <Forms.Control name="password" onChange={(e) => setField('password', e.target.value)} isInvalid={!!errors.password} required type="password" />
@@ -117,6 +123,7 @@ const Login = () => {
                         <Forms.Control.Feedback type='invalid'>
                             {errors.password}
                         </Forms.Control.Feedback>
+
                     </Forms>}
                 <div className={classes.ButtonGroup}>
                     <Button onClick={handleSubmit} className={classes.SignupButton} variant="primary" type="button">
