@@ -1,12 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useContext } from "react";
 
 import classes from './Login.module.css';
 
 import Button from 'react-bootstrap/Button';
 import Forms from 'react-bootstrap/Form';
+import { AuthContext } from "../Context/auth-context";
 
 const Login = () => {
     
+    const auth = useContext(AuthContext)
+
     const [form, setForm] = useState({})
     const [errors, setErrors] = useState({})
 
@@ -39,22 +42,35 @@ const Login = () => {
         }
     }
 
-    const validateForm = () => {
+    const validateForm = (e) => {
+        
         const {name, email, password} = form;
 
         const newErrors = {}
 
-        if(!name || name === '') {
-            newErrors.name = "Please enter your name";
+        if(isSwitched) {
+            if(!name || name === '') {
+                newErrors.name = "Please enter your name";
+            }
+    
+            if(!email || email === '') {
+                newErrors.email = "Please enter an email";
+            }
+            
+            if(!password || password === '') {
+                newErrors.password = "Please enter a password";
+            }
         }
-
-        if(!email || email === '') {
-            newErrors.email = "Please enter an email";
+        else {
+            if(!email || email === '') {
+                newErrors.email = "Please enter an email";
+            }
+            
+            if(!password || password === '') {
+                newErrors.password = "Please enter a password";
+            }
         }
         
-        if(!password || password === '') {
-            newErrors.password = "Please enter a password";
-        }
 
         return newErrors;
 
@@ -63,7 +79,7 @@ const Login = () => {
     const handleSubmit  = (e) => {
         e.preventDefault();
 
-        const formErrors = validateForm();
+        const formErrors = validateForm(e);
 
         //If there are errors, then set the erros object
         if(Object.keys(formErrors).length > 0) {
@@ -72,6 +88,7 @@ const Login = () => {
         else {
             console.log("Form sent!");
             console.log(form);
+            auth.login();
         }
     }
     

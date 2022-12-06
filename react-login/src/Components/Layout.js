@@ -10,7 +10,7 @@ import EditPlace from './Places/EditPlace';
 import Authenticate from './Form/Login';
 import { AuthContext } from './Context/auth-context';
 
-import {Routes, Route} from 'react-router-dom';
+import {Routes, Route, redirect} from 'react-router-dom';
 
 const Layout = () => {
 
@@ -25,19 +25,42 @@ const Layout = () => {
     }, []);
 
 
+    let routes;
 
+    if(isLoggedIn) {
+        routes = (
+            <React.Fragment>
+                <Route exact path="/" element={<Users />} />
+                <Route exact path="/signup" element={<Form />} />
+                <Route exact path="/:userid/places" element={<HomePlace />} />
+                <Route exact path="/addplaces" element={<AddPlace />} />
+                <Route exact path="/addplaces/:placeid" element={<EditPlace />} />
+            </React.Fragment>
+        );
+    }
+    else {
+        routes = (
+            <React.Fragment>
+                <Route exact path="/" element={<Users />} />
+                <Route exact path="/signup" element={<Form />} />
+                <Route exact path="/:userid/places" element={<HomePlace />} />
+                <Route exact path="/auth" element={<Authenticate />} />
+            </React.Fragment>
+        );
+    }
 
     return(
         <div className={classes.Layout}>
             <AuthContext.Provider value={{isLoggedIn: isLoggedIn, login: login,logout: logout}}>
                 <Header />
-                <Routes>    
-                    <Route exact path="/" element={<Users />} />
+                <Routes>
+                    {routes}    
+                    {/* <Route exact path="/" element={<Users />} />
                     <Route exact path="/signup" element={<Form />} />
                     <Route exact path="/:userid/places" element={<HomePlace />} />
                     <Route exact path="/addplaces" element={<AddPlace />} />
                     <Route exact path="/addplaces/:placeid" element={<EditPlace />} />
-                    <Route exact path="/auth" element={<Authenticate />} />
+                    <Route exact path="/auth" element={<Authenticate />} /> */}
                 </Routes>
             </AuthContext.Provider>
         </div>

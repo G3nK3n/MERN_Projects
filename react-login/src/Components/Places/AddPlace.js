@@ -62,6 +62,7 @@ const AddPlace = () => {
 
     return(
         <div className={classes.Form}>
+            {/* Make auth routes for edit and delete button */}
             <Forms>
                 <Forms.Group className={classes.Name} controlId="formBasicName">
                     <Forms.Label>Title</Forms.Label> <br />
