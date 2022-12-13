@@ -5,6 +5,11 @@ const placesRoutes = require('./routes/places-routes');
 
 const app = express();
 
+//Parse incoming request body and extract any json data in there converted to regular java
+//Must be used on top before going to any other middleware
+app.use(bodyParser.json());
+
+
 //Removes thst status 304
 app.disable('etag');
 

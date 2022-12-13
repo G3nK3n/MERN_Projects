@@ -1,3 +1,6 @@
+//const uuid = require('uuid/dist/esm-node/v4');
+const {v4: uuidv4} = require('uuid');
+
 const httpError = require('../models/http-error');
 
 const DUMMY_PLACES = [
@@ -44,5 +47,22 @@ const getUsersById = (req, res, next) => {
     res.json({user: user});
 }
 
+const createPlace = (req, res, next) => {
+    //This gets the data from the body parser
+    const { title, description, creator } = req.body;
+
+    const createPlace = {
+        id: uuidv4(),
+        title, 
+        description, 
+        creator
+    };
+
+    DUMMY_PLACES.push(createPlace);
+
+    res.status(201).json({place: createPlace});
+}
+
 exports.getPlacesById = getPlacesById;
 exports.getUsersById = getUsersById;
+exports.createPlace = createPlace;
