@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const placesRoutes = require('./routes/places-routes');
+const HttpError = require('./models/http-error');
 
 const app = express();
 
@@ -14,6 +15,12 @@ app.use(bodyParser.json());
 app.disable('etag');
 
 app.use('/api/places', placesRoutes);
+
+//This middleware will be used only if there are no other routes are called after placesRoutes above, which will give this error
+app.use((req, res, next) => {
+    const error = new HttpError('Could not find this route', 404);
+    throw error;
+});
 
 //Treated as a special middleware function as an error function because it has 4 parameters, which grants 
 //if there is an error above, which will automatically go to this function
