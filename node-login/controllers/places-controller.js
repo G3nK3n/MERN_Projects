@@ -1,6 +1,9 @@
 //const uuid = require('uuid/dist/esm-node/v4');
 const {v4: uuidv4} = require('uuid');
 
+//You need this to check the validations results
+const {validationResult} = require('express-validator');
+
 const httpError = require('../models/http-error');
 
 let DUMMY_PLACES = [
@@ -33,6 +36,13 @@ const getPlacesById = (req, res, next) => {
 }
 
 const updatePlacesById = (req, res, next) => {
+    const errors = validationResult(req);
+    if(!errors.isEmpty()) {
+        console.log(errors);
+        throw new httpError('Invalid inputs for updating', 422);
+    }
+    
+    
     const { title, description } = req.body;
     
     const placeiID = req.params.pid;
@@ -79,7 +89,15 @@ const getUsersById = (req, res, next) => {
 }
 
 const createPlace = (req, res, next) => {
-    //This gets the data from the body parser
+    
+    //Then you need to do this in order to see if there are any validation errors according to your request in the routes
+    const errors = validationResult(req);
+    if(!errors.isEmpty()) {
+        console.log(errors);
+        throw new httpError('Invalid inputs', 422);
+    }
+    
+     //This gets the data from the body parser
     const { title, description, creator } = req.body;
 
     const createPlace = {
@@ -96,6 +114,11 @@ const createPlace = (req, res, next) => {
 
 const deletePlace = (req, res, next) => {
     const placeID = req.params.pid;
+
+    //Verify first to see if ID exist
+    if(!DUMMY_PLACES.find(p => p.id === placeID)) {
+        throw new httpError('Could not find a place ID from url', 404);
+    }
     
     DUMMY_PLACES = DUMMY_PLACES.filter(p => p.id != placeID)
     /*

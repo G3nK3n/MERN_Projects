@@ -1,5 +1,8 @@
 const {v4: uuidv4} = require('uuid');
 
+//You need this to check the validations results
+const {validationResult} = require('express-validator');
+
 const httpError = require('../models/http-error');
 
 let DUMMY_USERS = [
@@ -18,6 +21,12 @@ const getListOfUsers = (req, res, next) => {
 }
 
 const createUser = (req, res, next) => {
+
+    const errors = validationResult(req);
+    if(!errors.isEmpty()) {
+        console.log(errors);
+        throw new httpError('Invalid inputs for creating user', 422);
+    }
     //This gets the data from the body parser
     const { name, email, password } = req.body;
 
@@ -39,6 +48,13 @@ const createUser = (req, res, next) => {
 }
 
 const login = (req, res, next) => {
+
+    const errors = validationResult(req);
+    if(!errors.isEmpty()) {
+        console.log(errors);
+        throw new httpError('Email or password is empty. Please insert a value', 422);
+    }
+
     const {email, password} = req.body;
 
     const identtifyUser = DUMMY_USERS.find(u => u.email === email);
