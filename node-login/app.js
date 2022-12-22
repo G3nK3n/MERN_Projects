@@ -1,6 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
+const mongoose = require('mongoose');
+
 const placesRoutes = require('./routes/places-routes');
 const usersRoutes = require('./routes/users-routes');
 
@@ -39,5 +41,14 @@ app.use((error, req, res, next) => {
     res.json({message: error.message || 'An unknown error has happened!'});
 });
 
-//Using port 5000 for Node.js
-app.listen(5000);
+mongoose
+    .connect('mongodb+srv://Ken:percelle@cluster0.sqby8kn.mongodb.net/?retryWrites=true&w=majority')
+    .then(() => {
+        console.log('Connected!');
+        //Using port 5000 for Node.js
+        app.listen(5000);
+    })
+    .catch(err => {
+        console.log(err);
+    });
+

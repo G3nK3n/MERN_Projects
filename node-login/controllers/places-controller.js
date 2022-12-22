@@ -6,6 +6,8 @@ const {validationResult} = require('express-validator');
 
 const httpError = require('../models/http-error');
 
+const Place = require('../models/place');
+
 let DUMMY_PLACES = [
     {
         id:'p1', 
@@ -88,7 +90,7 @@ const getUsersById = (req, res, next) => {
     res.json({user: user});
 }
 
-const createPlace = (req, res, next) => {
+const createPlace = async (req, res, next) => {
     
     //Then you need to do this in order to see if there are any validation errors according to your request in the routes
     const errors = validationResult(req);
@@ -100,14 +102,30 @@ const createPlace = (req, res, next) => {
      //This gets the data from the body parser
     const { title, description, creator } = req.body;
 
+    //This is for Mongoose Database
+    const createPlace = new Place({
+        title, 
+        description, 
+        creator
+    });
+    /* Replacing this with Mongoose Database above
     const createPlace = {
         id: uuidv4(),
         title, 
         description, 
         creator
     };
+    */
 
-    DUMMY_PLACES.push(createPlace);
+    try {
+        await createPlace.save();
+    } catch (err) {
+        const error = new httpError('Creating place failed, try again!', 500);
+        return next(error)
+    }
+    //Saves this document by inserting a new document into the database
+     
+    //DUMMY_PLACES.push(createPlace);
 
     res.status(201).json({place: createPlace});
 }
