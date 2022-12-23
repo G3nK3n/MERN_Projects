@@ -7,6 +7,7 @@ const {validationResult} = require('express-validator');
 const httpError = require('../models/http-error');
 
 const Place = require('../models/place');
+const { findById } = require('../models/place');
 
 let DUMMY_PLACES = [
     {
@@ -17,24 +18,37 @@ let DUMMY_PLACES = [
     }
 ]
 
-const getPlacesById = (req, res, next) => {
+const getPlacesById = async (req, res, next) => {
     
     //req.params gets the variable in the url, so in this case :pid
     const placeiID = req.params.pid;
+    
     //Checks if the DUMMY_PLACES has a placeID of whatever :pid is written in the URL
     //Replaced find with filter because there could be multiples places with the same creator
-    const places = DUMMY_PLACES.filter(p => {
-        return p.id === placeiID;
-    })
+    // const places = DUMMY_PLACES.filter(p => {
+    //     return p.id === placeiID;
+    // })
 
+    let places;
+
+    try {
+        places = await Place.findById(placeiID);
+    } catch (err) {
+        //This error is if there is something wrong with the GET request
+        const error = new httpError('Could not find a place by ID', 500);
+        return next(error);
+    }
+
+    //This error is if the GET request happens, but it is empty or length = 0
     //Added place.length just in case if the length of place is 0
     if(!places || places.length===0) {
         //return res.status(404).json({message: 'Could not find the place!'});
-        throw new httpError('Could not find a places for the provided ID.', 404);
+        const error = new httpError('Could not find a places for the provided ID.', 404);
+        return next(error);
 
     }
 
-    res.json({places: places});
+    res.json({places: places.toObject({getters: true})});
 }
 
 const updatePlacesById = (req, res, next) => {
