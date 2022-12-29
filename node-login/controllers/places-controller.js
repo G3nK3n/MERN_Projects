@@ -8,6 +8,8 @@ const httpError = require('../models/http-error');
 
 const Place = require('../models/place');
 const { findById } = require('../models/place');
+const place = require('../models/place');
+const HttpError = require('../models/http-error');
 
 let DUMMY_PLACES = [
     {
@@ -48,10 +50,11 @@ const getPlacesById = async (req, res, next) => {
 
     }
 
+    //Uses getters to remove underscores on the ids
     res.json({places: places.toObject({getters: true})});
 }
 
-const updatePlacesById = (req, res, next) => {
+const updatePlacesById = async (req, res, next) => {
     const errors = validationResult(req);
     if(!errors.isEmpty()) {
         console.log(errors);
@@ -64,19 +67,41 @@ const updatePlacesById = (req, res, next) => {
     const placeiID = req.params.pid;
     //Checks if the DUMMY_PLACES has a placeID of whatever :pid is written in the URL
     //Make sure you do this shortcut version, which will makle the PATCH work?    
-    const place = {...DUMMY_PLACES.find(p => p.id===placeiID)};
+    //const place = {...DUMMY_PLACES.find(p => p.id===placeiID)};
     //const placeIndex = {...DUMMY_PLACES.find(p => {p.id === placeiID})};
     
-    const placeIndex = DUMMY_PLACES.findIndex(p => p.id === placeiID);
+    //const placeIndex = DUMMY_PLACES.findIndex(p => p.id === placeiID);
 
-    
+    let places;
 
-    place.title = title;
-    place.description = description;
+    try {
+        places = await Place.findById(placeiID);
+    } catch (err) {
+        //This error is if there is something wrong with the GET request
+        const error = new httpError('Could not update place by UserID', 500);
+        return next(error);
+    }
 
-    DUMMY_PLACES[placeIndex] = place;
+    //This error is if the GET request happens, but it is empty or length = 0
+    //Added place.length just in case if the length of place is 0
+    if(!places || places.length===0) {
+        //return res.status(404).json({message: 'Could not find the place!'});
+        const error = new httpError('Could not find a places for the provided ID.', 404);
+        return next(error);
 
-    res.status(200).json({place: place})
+    }
+
+    places.title = title;
+    places.description = description;
+
+    //This saves the updates to the database
+    try {
+        await places.save();
+    } catch (err) {
+        const error = new httpError('Something went wrong when saving the place', 500);
+    }
+
+    res.status(200).json({places: places.toObject({getters: true})});
 
     // if(!place) {
     //     //return res.status(404).json({message: 'Could not find the place!'});
@@ -87,21 +112,43 @@ const updatePlacesById = (req, res, next) => {
     
 }
 
-const getUsersById = (req, res, next) => {
+const getUsersById = async (req, res, next) => {
     
     //req.params gets the variable in the url, so in this case :pid
     const userID = req.params.uid;
     //Checks if the DUMMY_PLACES has a placeID of whatever :pid is written in the URL
-    const user = DUMMY_PLACES.find(p => {
-        return p.creator === userID;
-    })
+    // const user = DUMMY_PLACES.find(p => {
+    //     return p.creator === userID;
+    // })
 
-    if(!user) {
-        //return res.status(404).json({message: 'Could not find the user id requested!'});
-        return next(new httpError('Could not find a place for the provided user ID.', 404));
+    let places;
+
+
+    try {
+        //Uses a find method since and makes more sense now
+        places = await Place.find({creator: userID});
+    } catch (err) {
+        //This error is if there is something wrong with the GET request
+        const error = new httpError('Could not find a place by User ID', 500);
+        return next(error);
     }
 
-    res.json({user: user});
+
+    if(!places || places.length===0) {
+        //return res.status(404).json({message: 'Could not find the place!'});
+        const error = new httpError('Could not find a places for the provided user ID.', 404);
+        return next(error);
+
+    }
+
+
+    // if(!user) {
+    //     //return res.status(404).json({message: 'Could not find the user id requested!'});
+    //     return next(new httpError('Could not find a place for the provided user ID.', 404));
+    // }
+
+    //Uses getters to remove underscores on the ids. Using a map now because the find method returns an array instead of an Object
+    res.json({places: places.map(place => place.toObject({getter: true}))})
 }
 
 const createPlace = async (req, res, next) => {
