@@ -9,16 +9,6 @@ const httpError = require('../models/http-error');
 const Place = require('../models/place');
 const { findById } = require('../models/place');
 const place = require('../models/place');
-const HttpError = require('../models/http-error');
-
-let DUMMY_PLACES = [
-    {
-        id:'p1', 
-        title: 'Empire State',
-        description: 'Big building', 
-        creator: 'u1'
-    }
-]
 
 const getPlacesById = async (req, res, next) => {
     
@@ -58,13 +48,15 @@ const updatePlacesById = async (req, res, next) => {
     const errors = validationResult(req);
     if(!errors.isEmpty()) {
         console.log(errors);
-        throw new httpError('Invalid inputs for updating', 422);
+        return next(
+            new httpError('Invalid inputs for updating', 422)
+        );
     }
     
     
     const { title, description } = req.body;
     
-    const placeiID = req.params.pid;
+    const placeID = req.params.pid;
     //Checks if the DUMMY_PLACES has a placeID of whatever :pid is written in the URL
     //Make sure you do this shortcut version, which will makle the PATCH work?    
     //const place = {...DUMMY_PLACES.find(p => p.id===placeiID)};
@@ -75,7 +67,7 @@ const updatePlacesById = async (req, res, next) => {
     let places;
 
     try {
-        places = await Place.findById(placeiID);
+        places = await Place.findById(placeID);
     } catch (err) {
         //This error is if there is something wrong with the GET request
         const error = new httpError('Could not update place by UserID', 500);
@@ -169,44 +161,53 @@ const createPlace = async (req, res, next) => {
         description, 
         creator
     });
-    /* Replacing this with Mongoose Database above
-    const createPlace = {
-        id: uuidv4(),
-        title, 
-        description, 
-        creator
-    };
-    */
 
     try {
-        await createPlace.save();
+        await createPlace.save(); //Saves this document by inserting a new document into the database
     } catch (err) {
         const error = new httpError('Creating place failed, try again!', 500);
         return next(error)
     }
-    //Saves this document by inserting a new document into the database
+    
      
     //DUMMY_PLACES.push(createPlace);
 
     res.status(201).json({place: createPlace});
 }
 
-const deletePlace = (req, res, next) => {
+const deletePlace = async (req, res, next) => {
     const placeID = req.params.pid;
 
-    //Verify first to see if ID exist
-    if(!DUMMY_PLACES.find(p => p.id === placeID)) {
-        throw new httpError('Could not find a place ID from url', 404);
-    }
-    
-    DUMMY_PLACES = DUMMY_PLACES.filter(p => p.id != placeID)
-    /*
-    const place = {...DUMMY_PLACES.find(p => p.id===placeiID)};
-    const placeIndex = DUMMY_PLACES.findIndex(p => p.id === placeiID);
+    let places;
 
-    DUMMY_PLACES.pop(place[placeIndex]);
-    */
-    res.status(200).json({place: "Succesfully deleted!"})
+    try {
+        places = await Place.findById(placeID);
+    } catch (err) {
+        //This error is if there is something wrong with the GET request
+        const error = new httpError('Could not delete place by placeID', 500);
+        return next(error);
+    }
+
+    //This error is if the GET request happens, but it is empty or length = 0
+    //Added place.length just in case if the length of place is 0
+    if(!places || places.length===0) {
+        //return res.status(404).json({message: 'Could not find the place!'});
+        const error = new httpError('Could not find a places for the provided ID.', 404);
+        return next(error);
+
+    }
+
+    //This saves the updates to the database
+    try {
+        await place.remove();
+    } catch (err) {
+        const error = new httpError('Something went wrong when saving the place, after deleting', 500);
+    }
+
+    //res.json({places: places.map(place => place.toObject({getter: true}))})
+    res.status(200).json({places: places.toObject({getters: true})});
+
+
 }
 
 exports.getPlacesById = getPlacesById;
